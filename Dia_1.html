@@ -3,37 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marquina Virtual</title>
-    <link rel="stylesheet" href="CSS/Style_Maquina_D1.css">
-    <link rel="stylesheet" href="JS/JS_Maquina_D1.js">
+    
+    <title>Simulador Básico de Máquina Virtual</title>
+    
+    <link rel="stylesheet" href="Style_Maquina_D1.css">
 </head>
 <body>
     <div class="contenedor">
-        <h1>Simulador Basico de Máquina Virtual</h1>
+        <h1>Simulador Básico de Máquina Virtual</h1>
+        
         <div class="panel-registros">
-                <h2>Registros</h2>
+            
+            <h2>Ingresar Datos</h2>
+            <div class="entradas">
+                <input type="number" id="input-ax" placeholder="Valor AX" value="0">
+                <input type="number" id="input-bx" placeholder="Valor BX" value="0">
+            </div>
 
-                <div class="registro">
-                    <label >Ax:</label>
-                    <span id = "val-ax">0</span>
-                </div>
-                <div class="registro">
-                    <label >Bx:</label>
-                    <span id = "val-bx">0</span>
-                </div>
-                <div class="registro">
-                    <label >Cx:</label>
-                    <span id = "val-cx">0</span>
-                </div>
+            <h2>Estado de Registros</h2>
+            
+            <div class="registro">
+                <label>Ax:</label>
+                <span id="val-ax">0</span>
+            </div>
+            
+            <div class="registro">
+                <label>Bx:</label>
+                <span id="val-bx">0</span>
+            </div>
+            
+            <div class="registro" style="background: #e8f8f5;">
+                <label>Cx (Resultado):</label>
+                <span id="val-cx">0</span>
+            </div>
         </div>
 
-        <div class="panle-pila">
+        <div class="panel-pila">
             <h2>Pila</h2>
-            <div id="val-pila">Vacia</div>
-
+            <div id="val-pila">Vacía</div>
         </div>
+
+        <div class="botones">
+            <button onclick="ejecutarOperacion('ADD')">ADD (Sumar)</button>
+            <button onclick="ejecutarOperacion('SUB')">SUB (Restar)</button>
+            <button onclick="ejecutarOperacion('MUL')">MUL (Multiplicar)</button>
+            <button onclick="ejecutarOperacion('DIV')">DIV (Dividir)</button>
+        </div>
+        
     </div>
     
-    
+    <script src="JS_Maquina_D1.js"></script>
 </body>
 </html>
