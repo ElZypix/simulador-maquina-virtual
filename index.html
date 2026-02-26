@@ -3,17 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
     <title>Simulador Básico de Máquina Virtual</title>
-    
-    <link rel="stylesheet" href="Style_Maquina_D1.css">
+    <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="contenedor">
         <h1>Simulador Básico de Máquina Virtual</h1>
         
-        <div class="panel-registros">
-            
+        <section class="panel-registros">
             <h2>Ingresar Datos</h2>
             <div class="entradas">
                 <input type="number" id="input-ax" placeholder="Valor AX" value="0">
@@ -21,27 +18,24 @@
             </div>
 
             <h2>Estado de Registros</h2>
-            
             <div class="registro">
                 <label>Ax:</label>
                 <span id="val-ax">0</span>
             </div>
-            
             <div class="registro">
                 <label>Bx:</label>
                 <span id="val-bx">0</span>
             </div>
-            
             <div class="registro" style="background: #e8f8f5;">
                 <label>Cx (Resultado):</label>
                 <span id="val-cx">0</span>
             </div>
-        </div>
+        </section>
 
-        <div class="panel-pila">
+        <section class="panel-pila">
             <h2>Pila</h2>
             <div id="val-pila">Vacía</div>
-        </div>
+        </section>
 
         <div class="botones">
             <button onclick="ejecutarOperacion('ADD')">ADD (Sumar)</button>
@@ -49,9 +43,21 @@
             <button onclick="ejecutarOperacion('MUL')">MUL (Multiplicar)</button>
             <button onclick="ejecutarOperacion('DIV')">DIV (Dividir)</button>
         </div>
-        
+        <!--Creo una caja para el menu-->
+        <div class="menu">
+            <!--Menu para seleccionar cada uno de los registros ya sea Ax, Bx y Cx-->
+            <select id="registro-seleccionado">
+                <option value="Ax">Ax</option>
+                <option value="Bx">Bx</option>
+                <option value="Cx">Cx</option>
+            </select>
+            <!--Creo los botones + los vinculo con una funcion-->
+            <button onclick="ejecutarIncremento()">Incrementar</button>
+            <button onclick="ejecutarDecremento()">Decrementar</button>
+        </div>
     </div>
     
-    <script src="JS_Maquina_D1.js"></script>
+    <script src="js/maquina.js"></script>
+    <script src="js/main.js"></script>
 </body>
 </html>
