@@ -21,6 +21,8 @@ function ejecutarOperacion(operacion) {
         case 'SUB': maquina.restar(); break;
         case 'MUL': maquina.multiplicar(); break;
         case 'DIV': maquina.dividir(); break;
+        case 'CMP':const resultado = maquina.comparar(); maquina.mostrarMensaje("CMP → " + resultado);
+    break;
     }
     // 4. Actualizar la pantalla para que el usuario pueda ver el resultado en Cx
     maquina.ActualizarPantalla();
@@ -33,6 +35,8 @@ function ejecutarIncremento(){
     maquina.incrementar(registroElegido);
     //Actualizar los números en la página
     maquina.ActualizarPantalla();
+    //Mostrar el mensaje del incremento en la consola de la página web
+    maquina.mostrarMensaje("INC " + registroElegido + " → " + maquina[registroElegido]);
 }
 //Funcion que sirve como intermediario para ejecutar la funcion decrementar
 function ejecutarDecremento(){
@@ -42,4 +46,6 @@ function ejecutarDecremento(){
     maquina.decrementar(registroElegido);
     //Actualizar los números en la página
     maquina.ActualizarPantalla();
+    //Mostrar el mensaje del decremento en la consola de la página web
+    maquina.mostrarMensaje("DEC " + registroElegido + " → " + maquina[registroElegido]);
 }

@@ -46,7 +46,26 @@ class Maquina {
     decrementar(registro){
         this[registro]--
     }
+    //metodo para comparar los valores de Ax y Bx y mostrar un mensaje indicando cuál es mayor o si son iguales
+    comparar() {
+    if (this.Ax > this.Bx) {
+        return "AX es mayor que BX";
+    } else if (this.Ax < this.Bx) {
+        return "AX es menor que BX";
+    } else {
+        return "AX es igual a BX";
+    }
+    }
+    
+    // metodo para mostrar mensajes estructurados en la consola de la página web
+    mostrarMensaje(mensaje) {
+    const consola = document.getElementById("consola");
+    const linea = document.createElement("div");
+    linea.textContent = "> " + mensaje;
+    consola.appendChild(linea);
 
+    consola.scrollTop = consola.scrollHeight; // auto-scroll
+    }
     // --- MÉTODO DE INTERFAZ GRÁFICA ---
 
      // Método para reflejar los cambios internos de la máquina en la página web (DOM)
