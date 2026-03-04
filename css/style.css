@@ -76,8 +76,10 @@ button {
 button:hover {
     background: #2980b9;
 }
+
+/* --- ESTILOS DÍA 6 --- */
 .panel-loop {
-    background: #f9f9f9; /* Fondo gris claro como los otros paneles */
+    background: #f9f9f9; 
     padding: 15px;
     margin-top: 15px;
     border-radius: 5px;
@@ -106,9 +108,8 @@ button:hover {
     border-radius: 4px;
 }
 
-/* Botón con el mismo estilo que los anteriores */
 .btn-loop {
-    background: #27ae60 !important; /* Verde para diferenciar la acción de ciclo */
+    background: #27ae60 !important; 
     color: white;
     padding: 10px;
     font-weight: bold;

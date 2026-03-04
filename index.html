@@ -36,39 +36,35 @@
             <h2>Pila</h2>
             <div id="val-pila">Vacía</div>
         </section>
-		
-       
-
+        
         <section class="panel-consola">
             <h2>Consola</h2>
             <div class="entradas-comando" style="display: flex; gap: 10px; margin-bottom: 10px;">
-                <input type="text" id="input-comando" placeholder="Escribe un comando ej. ADD, INC Ax" style="flex-grow: 1; padding: 5px;">
+                <input type="text" id="input-comando" placeholder="Escribe un comando ej. ADD, INC Ax, LOOP Ax 5" style="flex-grow: 1; padding: 5px;">
                 <button onclick="procesarComando()">Enter</button>
             </div>
             
             <div id="consola"></div>
         </section>
-		
+        
         <div class="botones">
             <button onclick="ejecutarOperacion('ADD')">ADD (Sumar)</button>
             <button onclick="ejecutarOperacion('SUB')">SUB (Restar)</button>
             <button onclick="ejecutarOperacion('MUL')">MUL (Multiplicar)</button>
             <button onclick="ejecutarOperacion('DIV')">DIV (Dividir)</button>
-			<button onclick="ejecutarOperacion('CMP')">CMP (Comparar)</button>
+            <button onclick="ejecutarOperacion('CMP')">CMP (Comparar)</button>
         </div>
-        <!--Creo una caja para el menu-->
+
         <div class="menu">
-            <!--Menu para seleccionar cada uno de los registros ya sea Ax, Bx y Cx-->
             <select id="registro-seleccionado">
                 <option value="Ax">Ax</option>
                 <option value="Bx">Bx</option>
                 <option value="Cx">Cx</option>
             </select>
-            <!--Creo los botones + los vinculo con una funcion-->
             <button onclick="ejecutarIncremento()">Incrementar</button>
             <button onclick="ejecutarDecremento()">Decrementar</button>
         </div>
-        <!--Creo un panel para el ciclo loop-->
+
         <section class="panel-loop">
             <h2>Ciclo Controlado</h2>
             <div class="loop-controles">
@@ -81,9 +77,6 @@
                 <button onclick="ejecutarLoop()" class="btn-loop">Ejecutar</button>
             </div>
         </section>
-
-
-
     </div>
    
     <script src="js/maquina.js"></script>
