@@ -1,0 +1,122 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #2c3e50;
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.contenedor {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 400px;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #333;
+}
+
+.panel-registros, .panel-pila, .menu {
+    background: #f9f9f9;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.registro {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2em;
+    font-family: monospace;
+    margin: 5px 0;
+    padding: 5px;
+    background: white;
+    border: 1px solid #ddd;
+}
+
+#val-pila {
+    font-family: monospace;
+    text-align: center;
+    font-size: 1.2em;
+}
+
+.entradas {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+}
+
+.entradas input {
+    width: 45%;
+    padding: 5px;
+    font-family: monospace;
+    font-size: 1.1em;
+}
+
+.botones {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+button {
+    padding: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+button:hover {
+    background: #2980b9;
+}
+.panel-loop {
+    background: #f9f9f9; /* Fondo gris claro como los otros paneles */
+    padding: 15px;
+    margin-top: 15px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.loop-controles {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.loop-controles input {
+    width: 70px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-family: monospace;
+}
+
+.loop-controles select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* Botón con el mismo estilo que los anteriores */
+.btn-loop {
+    background: #27ae60 !important; /* Verde para diferenciar la acción de ciclo */
+    color: white;
+    padding: 10px;
+    font-weight: bold;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-loop:hover {
+    background: #219150 !important;
+}
