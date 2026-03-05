@@ -7,7 +7,6 @@ window.onload = () => {
 function ejecutarOperacion(operacion) {
     const inputAx = document.getElementById('input-ax').value;
     const inputBx = document.getElementById('input-bx').value;
-
     maquina.cargarValores(inputAx, inputBx);
 
     switch(operacion) {
@@ -40,30 +39,29 @@ function ejecutarDecremento(){
 function procesarComando() {
     const inputComando = document.getElementById('input-comando');
     const textoComando = inputComando.value;
-
     if (textoComando === "") return;
 
-    const inputAx = document.getElementById('input-ax').value;
-    const inputBx = document.getElementById('input-bx').value;
-    maquina.cargarValores(inputAx, inputBx);
-
+    maquina.cargarValores(document.getElementById('input-ax').value, document.getElementById('input-bx').value);
     maquina.ejecutar(textoComando);
-
     maquina.ActualizarPantalla();
     inputComando.value = "";
 }
 
-document.getElementById('input-comando').addEventListener('keypress', function (e) {
-    if (e.key === 'Enter') {
-        procesarComando();
-    }
+document.getElementById('input-comando').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') procesarComando();
 });
 
-// --- NUEVA FUNCIÓN DÍA 6 ---
 function ejecutarLoop() {
     const vueltas = document.getElementById("input-loop-vueltas").value;
     const registroElegido = document.getElementById("loop-registro").value;
-
     maquina.loopIncrementar(registroElegido, vueltas);
+    maquina.ActualizarPantalla();
+}
+
+// --- DÍA 7 ---
+function ejecutarWhile() {
+    const objetivo = document.getElementById("input-while-objetivo").value;
+    const registroElegido = document.getElementById("while-registro").value;
+    maquina.incrementarHasta(registroElegido, objetivo);
     maquina.ActualizarPantalla();
 }

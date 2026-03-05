@@ -1,4 +1,3 @@
-// Definir clase Maquina que simula el comportamiento de una CPU básica
 class Maquina {
     constructor(){
         this.Ax = 0; 
@@ -38,27 +37,44 @@ class Maquina {
         }
     }
 
-    // --- NUEVO MÉTODO DÍA 6 ---
     loopIncrementar(registro, iteraciones) {
         let vueltas = parseInt(iteraciones) || 0;
-        
         if (vueltas <= 0) {
             this.mostrarMensaje("Error LOOP: Las iteraciones deben ser mayores a 0.");
             return;
         }
-
-        // Límite de seguridad para evitar que el navegador se trabe
         if (vueltas > 1000) {
             this.mostrarMensaje("Aviso: Limitando a 1000 iteraciones por seguridad.");
             vueltas = 1000;
         }
-
-        // Ciclo for para repetir la operación
         for (let i = 0; i < vueltas; i++) {
             this.incrementar(registro);
         }
-
         this.mostrarMensaje(`LOOP: ${registro} incrementado ${vueltas} veces.`);
+    }
+
+    // ---DÍA 7 (Ciclo While) ---
+    incrementarHasta(registro, valorObjetivo) {
+        let contador = 0;
+        const maxSeguridad = 1000;
+        const objetivo = parseFloat(valorObjetivo);
+
+        if (isNaN(objetivo)) {
+            this.mostrarMensaje("Error: El valor objetivo debe ser un número.");
+            return;
+        }
+
+      
+        while (this[registro] < objetivo && contador < maxSeguridad) {
+            this.incrementar(registro);
+            contador++;
+        }
+
+        if (contador >= maxSeguridad) {
+            this.mostrarMensaje(`Seguridad: Ciclo detenido en ${maxSeguridad} iteraciones.`);
+        }
+
+        this.mostrarMensaje(`WHILE: ${registro} alcanzó ${this[registro]}. Ciclos realizados: ${contador}`);
     }
 
     ejecutar(instruccion) {
@@ -67,22 +83,10 @@ class Maquina {
         let registro = partes[1] ? partes[1] : null; 
 
         switch(comando) {
-            case 'ADD': 
-                this.sumar(); 
-                this.mostrarMensaje("Comando: ADD ejecutado."); 
-                break;
-            case 'SUB': 
-                this.restar(); 
-                this.mostrarMensaje("Comando: SUB ejecutado."); 
-                break;
-            case 'MUL': 
-                this.multiplicar(); 
-                this.mostrarMensaje("Comando: MUL ejecutado."); 
-                break;
-            case 'DIV': 
-                this.dividir(); 
-                this.mostrarMensaje("Comando: DIV ejecutado."); 
-                break;
+            case 'ADD': this.sumar(); this.mostrarMensaje("Comando: ADD ejecutado."); break;
+            case 'SUB': this.restar(); this.mostrarMensaje("Comando: SUB ejecutado."); break;
+            case 'MUL': this.multiplicar(); this.mostrarMensaje("Comando: MUL ejecutado."); break;
+            case 'DIV': this.dividir(); this.mostrarMensaje("Comando: DIV ejecutado."); break;
             case 'CMP': 
                 const res = this.comparar(); 
                 this.mostrarMensaje("Comando: CMP → " + res); 
@@ -90,37 +94,36 @@ class Maquina {
             case 'INC':
                 if (registro) {
                     let regNorm = registro.charAt(0).toUpperCase() + registro.slice(1).toLowerCase();
-                    if(regNorm === 'Ax' || regNorm === 'Bx' || regNorm === 'Cx') {
+                    if(this.hasOwnProperty(regNorm)) {
                         this.incrementar(regNorm);
                         this.mostrarMensaje("Comando: INC " + regNorm + " ejecutado.");
-                    } else {
-                        this.mostrarMensaje("Error: Registro '" + registro + "' no válido.");
-                    }
-                }
-                break; // <-- ¡Faltaba este break en tu código original!
-            case 'DEC':
-                if (registro) {
-                    let regNorm = registro.charAt(0).toUpperCase() + registro.slice(1).toLowerCase();
-                    if(regNorm === 'Ax' || regNorm === 'Bx' || regNorm === 'Cx') {
-                        this.decrementar(regNorm);
-                        this.mostrarMensaje("Comando: DEC " + regNorm + " ejecutado.");
-                    } else {
-                        this.mostrarMensaje("Error: Registro '" + registro + "' no válido.");
                     }
                 }
                 break;
-            // --- NUEVO CASO DÍA 6 ---
+            case 'DEC':
+                if (registro) {
+                    let regNorm = registro.charAt(0).toUpperCase() + registro.slice(1).toLowerCase();
+                    if(this.hasOwnProperty(regNorm)) {
+                        this.decrementar(regNorm);
+                        this.mostrarMensaje("Comando: DEC " + regNorm + " ejecutado.");
+                    }
+                }
+                break;
             case 'LOOP':
                 let vueltasCmd = partes[2] ? partes[2] : 0;
                 if (registro && vueltasCmd) {
                     let regNorm = registro.charAt(0).toUpperCase() + registro.slice(1).toLowerCase();
-                    if(regNorm === 'Ax' || regNorm === 'Bx' || regNorm === 'Cx') {
-                        this.loopIncrementar(regNorm, vueltasCmd);
-                    } else {
-                        this.mostrarMensaje("Error: Registro '" + registro + "' no válido.");
-                    }
+                    this.loopIncrementar(regNorm, vueltasCmd);
+                }
+                break;
+            // --- DÍA 7 ---
+            case 'WHILE':
+                let objetivoCmd = partes[2] ? partes[2] : null;
+                if (registro && objetivoCmd) {
+                    let regNorm = registro.charAt(0).toUpperCase() + registro.slice(1).toLowerCase();
+                    this.incrementarHasta(regNorm, objetivoCmd);
                 } else {
-                    this.mostrarMensaje("Error: Uso correcto LOOP [registro] [cantidad]");
+                    this.mostrarMensaje("Error: Uso WHILE [registro] [objetivo]");
                 }
                 break;
             default:
@@ -141,15 +144,10 @@ class Maquina {
         document.getElementById('val-ax').textContent = this.Ax;
         document.getElementById('val-bx').textContent = this.Bx;
         document.getElementById('val-cx').textContent = this.Cx;
-        
         document.getElementById('input-ax').value = this.Ax;
         document.getElementById('input-bx').value = this.Bx;
 
         const pantallaPila = document.getElementById('val-pila');
-        if (this.pila.length === 0){
-            pantallaPila.textContent = 'Pila vacía';
-        } else {
-            pantallaPila.textContent = "[ " + this.pila.join(", ") + " ]";
-        }
+        pantallaPila.textContent = this.pila.length === 0 ? 'Vacía' : "[ " + this.pila.join(", ") + " ]";
     }
 }
