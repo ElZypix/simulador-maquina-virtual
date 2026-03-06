@@ -7,7 +7,11 @@ window.onload = () => {
 function ejecutarOperacion(operacion) {
     const inputAx = document.getElementById('input-ax').value;
     const inputBx = document.getElementById('input-bx').value;
-    maquina.cargarValores(inputAx, inputBx);
+    
+    let datosValidos = maquina.cargarValores(inputAx, inputBx);
+    if (!datosValidos) {
+        return;
+    }
 
     switch(operacion) {
         case 'ADD': maquina.sumar(); break;
@@ -41,7 +45,13 @@ function procesarComando() {
     const textoComando = inputComando.value;
     if (textoComando === "") return;
 
-    maquina.cargarValores(document.getElementById('input-ax').value, document.getElementById('input-bx').value);
+    let datosValidos = maquina.cargarValores(
+        document.getElementById('input-ax').value, 
+        document.getElementById('input-bx').value
+    );
+    
+    if (!datosValidos) return;
+
     maquina.ejecutar(textoComando);
     maquina.ActualizarPantalla();
     inputComando.value = "";

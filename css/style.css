@@ -121,3 +121,9 @@ button:hover {
 .btn-loop:hover {
     background: #219150 !important;
 }
+.input-error {
+    border: 2px solid #e74c3c !important;
+    background-color: #fadbd8 !important;
+    outline: none;
+    transition: 0.3s;
+}

@@ -6,9 +6,36 @@ class Maquina {
         this.pila = []; 
     }
 
+    
     cargarValores(ax, bx) {
-        this.Ax = parseFloat(ax) || 0;
-        this.Bx = parseFloat(bx) || 0;
+        let valorAx = parseFloat(ax);
+        let valorBx = parseFloat(bx);
+        let datosValidos = true;
+
+        const inputAxHtml = document.getElementById('input-ax');
+        const inputBxHtml = document.getElementById('input-bx');
+
+        if (isNaN(valorAx)) {
+            inputAxHtml.classList.add('input-error'); // Pinta de rojo
+            datosValidos = false;
+        } else {
+            inputAxHtml.classList.remove('input-error'); // Quita el rojo
+            this.Ax = valorAx; // Guarda el valor real
+        }
+
+        if (isNaN(valorBx)) {
+            inputBxHtml.classList.add('input-error'); // Pinta de rojo
+            datosValidos = false;
+        } else {
+            inputBxHtml.classList.remove('input-error'); // Quita el rojo
+            this.Bx = valorBx; // Guarda el valor real
+        }
+
+        if (!datosValidos) {
+            this.mostrarMensaje("Error de Captura: Se requieren números válidos.");
+        }
+
+        return datosValidos; // Devolvemos 'true' si todo está bien, o 'false' si hubo error
     }
 
     sumar() { this.Cx = this.Ax + this.Bx; }
