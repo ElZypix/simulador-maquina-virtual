@@ -127,3 +127,27 @@ button:hover {
     outline: none;
     transition: 0.3s;
 }
+
+#consola{
+    background: #000;
+    color: #00ff00;
+    font-family: monospace;
+    height: 220px;
+    overflow-y: auto;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.linea-consola{
+    display: flex;
+    gap: 8px;
+}
+
+.prompt{
+    color: #00ffff;
+    font-weight: bold;
+}
+
+.texto{
+    color: #00ff00;
+}

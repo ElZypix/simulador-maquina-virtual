@@ -5,7 +5,17 @@ class Maquina {
         this.Cx = 0; 
         this.pila = []; 
     }
+estadoActual(){
+    return ` 
+   ESTADO ACTUAL DE LA VM 
+AX : ${this.Ax}
+BX : ${this.Bx}
+CX : ${this.Cx}
 
+PILA : ${this.pila.length === 0 ? "Vacía" : this.pila.join(", ")}
+ 
+`;
+}
     
     cargarValores(ax, bx) {
         let valorAx = parseFloat(ax);
@@ -156,16 +166,23 @@ class Maquina {
             default:
                 this.mostrarMensaje("Error de CPU: Comando '" + comando + "' no reconocido.");
                 break;
+                
         }
+                this.mostrarMensaje(this.estadoActual());
     }
     
     mostrarMensaje(mensaje) {
-        const consola = document.getElementById("consola");
-        const linea = document.createElement("div");
-        linea.textContent = "> " + mensaje;
-        consola.appendChild(linea);
-        consola.scrollTop = consola.scrollHeight; 
-    }
+    const consola = document.getElementById("consola");
+    const linea = document.createElement("div");
+    linea.classList.add("linea-consola");
+
+    linea.innerHTML = `
+        <span class="prompt">VM></span>
+        <span class="texto">${mensaje}</span>
+    `;
+    consola.appendChild(linea);
+    consola.scrollTop = consola.scrollHeight;
+}
 
     ActualizarPantalla(){
         document.getElementById('val-ax').textContent = this.Ax;
