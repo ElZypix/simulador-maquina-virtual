@@ -151,3 +151,32 @@ button:hover {
 .texto{
     color: #00ff00;
 }
+
+.tabla-pila {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-family: monospace;
+    font-size: 1.1em;
+}
+
+.tabla-pila th {
+    background-color: #34495e;
+    color: white;
+    padding: 8px;
+    border: 1px solid #2c3e50;
+}
+
+.tabla-pila td {
+    background-color: white;
+    color: #333;
+    padding: 8px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.tabla-pila tr:nth-child(2) td {
+    background-color: #d5f5e3; 
+    font-weight: bold;
+    border: 2px solid #27ae60;
+}

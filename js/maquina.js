@@ -74,6 +74,29 @@ PILA : ${this.pila.length === 0 ? "Vacía" : this.pila.join(", ")}
         }
     }
 
+    pushValor(valor) {
+        this.pila.push(valor);
+        this.mostrarMensaje(`PUSH: Se insertó el valor ${valor} en la pila.`);
+    }
+
+    popValor(registroDestino) {
+        // Control de pila vacía
+        if (this.pila.length === 0) {
+            this.mostrarMensaje("Error de Pila: Intentaste hacer POP pero la pila está vacía.");
+            return;
+        }
+        
+        let valorSacado = this.pila.pop();
+        
+        // Si mandamos un registro (ej. Ax), guardamos el valor ahí
+        if (registroDestino && this.hasOwnProperty(registroDestino)) {
+            this[registroDestino] = valorSacado;
+            this.mostrarMensaje(`POP: Se sacó ${valorSacado} de la pila y se guardó en ${registroDestino}.`);
+        } else {
+            this.mostrarMensaje(`POP: Se sacó ${valorSacado} de la pila.`);
+        }
+    }
+
     loopIncrementar(registro, iteraciones) {
         let vueltas = parseInt(iteraciones) || 0;
         if (vueltas <= 0) {
@@ -146,6 +169,23 @@ PILA : ${this.pila.length === 0 ? "Vacía" : this.pila.join(", ")}
                     }
                 }
                 break;
+                case 'PUSH':
+                if (registro && this.hasOwnProperty(registro)) {
+                    this.pushValor(this[registro]);
+                } else if (!isNaN(parseFloat(partes[1]))) {
+                    this.pushValor(parseFloat(partes[1])); 
+                } else {
+                    this.mostrarMensaje("Error: Uso PUSH [registro] o PUSH [número]");
+                }
+                break;
+            case 'POP':
+                if (registro) {
+                    let regNorm = registro.charAt(0).toUpperCase() + registro.slice(1).toLowerCase();
+                    this.popValor(regNorm); 
+                } else {
+                    this.popValor(); 
+                }
+                break;
             case 'LOOP':
                 let vueltasCmd = partes[2] ? partes[2] : 0;
                 if (registro && vueltasCmd) {
@@ -192,6 +232,15 @@ PILA : ${this.pila.length === 0 ? "Vacía" : this.pila.join(", ")}
         document.getElementById('input-bx').value = this.Bx;
 
         const pantallaPila = document.getElementById('val-pila');
-        pantallaPila.textContent = this.pila.length === 0 ? 'Vacía' : "[ " + this.pila.join(", ") + " ]";
+        if (this.pila.length === 0) {
+            pantallaPila.innerHTML = '<div style="padding: 10px; color: #7f8c8d;">Pila vacía</div>';
+        } else {
+            let tablaHTML = '<table class="tabla-pila"><tr><th>Tope</th><th>Valor</th></tr>';
+            for (let i = this.pila.length - 1; i >= 0; i--) {
+                tablaHTML += `<tr><td>Pos ${i}</td><td>${this.pila[i]}</td></tr>`;
+            }
+            tablaHTML += '</table>';
+            pantallaPila.innerHTML = tablaHTML;
+        }
     }
 }
