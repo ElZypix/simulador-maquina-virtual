@@ -1,6 +1,7 @@
 const maquina = new Maquina();
 
 window.onload = () => {
+    maquina.cargarEstado();
     maquina.ActualizarPantalla();
 }
 

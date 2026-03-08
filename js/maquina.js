@@ -16,6 +16,29 @@ PILA : ${this.pila.length === 0 ? "Vacía" : this.pila.join(", ")}
  
 `;
 }
+    //DÍA 14
+    guardarEstado() {
+        const estado = {
+            Ax: this.Ax,
+            Bx: this.Bx,
+            Cx: this.Cx,
+            pila: this.pila
+        };
+        localStorage.setItem('mv_estado', JSON.stringify(estado));
+    }
+
+    cargarEstado() {
+        const datosGuardados = localStorage.getItem('mv_estado');
+        if (datosGuardados) {
+            const estado = JSON.parse(datosGuardados);
+            this.Ax = estado.Ax;
+            this.Bx = estado.Bx;
+            this.Cx = estado.Cx;
+            this.pila = estado.pila || [];
+            this.mostrarMensaje("Sistema: Estado restaurado desde la memoria local.");
+            this.ActualizarPantalla();
+        }
+    }
     
     cargarValores(ax, bx) {
         let valorAx = parseFloat(ax);
@@ -151,7 +174,7 @@ PILA : ${this.pila.length === 0 ? "Vacía" : this.pila.join(", ")}
                 const res = this.comparar(); 
                 this.mostrarMensaje("Comando: CMP → " + res); 
                 break;
-            case 'INC':
+            case 'INC': {
                 if (registro) {
                     let regNorm = registro.charAt(0).toUpperCase() + registro.slice(1).toLowerCase();
                     if(this.hasOwnProperty(regNorm)) {
@@ -160,7 +183,8 @@ PILA : ${this.pila.length === 0 ? "Vacía" : this.pila.join(", ")}
                     }
                 }
                 break;
-            case 'DEC':
+            }
+            case 'DEC': {
                 if (registro) {
                     let regNorm = registro.charAt(0).toUpperCase() + registro.slice(1).toLowerCase();
                     if(this.hasOwnProperty(regNorm)) {
@@ -169,7 +193,8 @@ PILA : ${this.pila.length === 0 ? "Vacía" : this.pila.join(", ")}
                     }
                 }
                 break;
-                case 'PUSH':
+            }
+            case 'PUSH':
                 if (registro && this.hasOwnProperty(registro)) {
                     this.pushValor(this[registro]);
                 } else if (!isNaN(parseFloat(partes[1]))) {
@@ -178,7 +203,7 @@ PILA : ${this.pila.length === 0 ? "Vacía" : this.pila.join(", ")}
                     this.mostrarMensaje("Error: Uso PUSH [registro] o PUSH [número]");
                 }
                 break;
-            case 'POP':
+            case 'POP': {
                 if (registro) {
                     let regNorm = registro.charAt(0).toUpperCase() + registro.slice(1).toLowerCase();
                     this.popValor(regNorm); 
@@ -186,15 +211,16 @@ PILA : ${this.pila.length === 0 ? "Vacía" : this.pila.join(", ")}
                     this.popValor(); 
                 }
                 break;
-            case 'LOOP':
+            }
+            case 'LOOP': {
                 let vueltasCmd = partes[2] ? partes[2] : 0;
                 if (registro && vueltasCmd) {
                     let regNorm = registro.charAt(0).toUpperCase() + registro.slice(1).toLowerCase();
                     this.loopIncrementar(regNorm, vueltasCmd);
                 }
                 break;
-            // --- DÍA 7 ---
-            case 'WHILE':
+            }
+            case 'WHILE': {
                 let objetivoCmd = partes[2] ? partes[2] : null;
                 if (registro && objetivoCmd) {
                     let regNorm = registro.charAt(0).toUpperCase() + registro.slice(1).toLowerCase();
@@ -203,31 +229,104 @@ PILA : ${this.pila.length === 0 ? "Vacía" : this.pila.join(", ")}
                     this.mostrarMensaje("Error: Uso WHILE [registro] [objetivo]");
                 }
                 break;
+            }
+            case 'HEX': {
+                if(registro && this.hasOwnProperty(registro)){
+                    this.mostrarMensaje(`HEX: ${registro} es ${this.formatearHex(this[registro])}`);
+                }else{
+                    this.mostrarMensaje("Uso: HEX [registro]");
+                }
+                break;
+            }
+            case 'DEC': {
+                if (registro && this.hasOwnProperty(registro)) {
+                    this.mostrarMensaje(`DEC: ${registro} es ${Math.floor(this[registro])}`);
+                } else {
+                    this.mostrarMensaje("Uso: DEC [registro]");
+                }
+                break;
+            }
+            case 'SHL': {
+                if (registro) {
+                    let regNorm = registro.charAt(0).toUpperCase() + registro.slice(1).toLowerCase();
+                    if (this.hasOwnProperty(regNorm)) {
+                        this.desplazarIzq(regNorm);
+                    } else {
+                        this.mostrarMensaje(`Error: Registro ${registro} no existe.`);
+                    }
+                } else {
+                    this.mostrarMensaje("Uso: SHL [registro]");
+                }
+                break;
+            }
+            case 'SHR': {
+                if (registro) {
+                    let regNorm = registro.charAt(0).toUpperCase() + registro.slice(1).toLowerCase();
+                    if (this.hasOwnProperty(regNorm)) {
+                        this.desplazarDer(regNorm);
+                    } else {
+                        this.mostrarMensaje(`Error: Registro ${registro} no existe.`);
+                    }
+                } else {
+                    this.mostrarMensaje("Uso: SHR [registro]");
+                }
+                break;
+            }
+            case 'TEST': {
+                let min = partes[2] ? partes[2] : 0;
+                let max = partes[3] ? partes[3] : 0;
+
+                if (registro) {
+                    let regNorm = registro.charAt(0).toUpperCase() + registro.slice(1).toLowerCase();
+                    if (this.hasOwnProperty(regNorm)) {
+                        this.evaluarCondicionCompleja(regNorm, min, max);
+                    } else {
+                        this.mostrarMensaje(`Error: Registro ${registro} no existe.`);
+                    }
+                } else {
+                    this.mostrarMensaje("Uso: TEST [registro] [min] [max]");
+                }
+                break;
+            }
             default:
                 this.mostrarMensaje("Error de CPU: Comando '" + comando + "' no reconocido.");
                 break;
-                
         }
-                this.mostrarMensaje(this.estadoActual());
+        this.mostrarMensaje(this.estadoActual());
     }
     
-    mostrarMensaje(mensaje) {
-    const consola = document.getElementById("consola");
-    const linea = document.createElement("div");
-    linea.classList.add("linea-consola");
+    //DÍA 12
+    desplazarIzq(registro) {
+        this[registro] = this[registro] << 1;
+        this.mostrarMensaje(`SHL: bits de ${registro} movidos a la izquierda.`);
+    }
 
-    linea.innerHTML = `
-        <span class="prompt">VM></span>
-        <span class="texto">${mensaje}</span>
-    `;
-    consola.appendChild(linea);
-    consola.scrollTop = consola.scrollHeight;
-}
+    desplazarDer(registro) {
+        this[registro] = this[registro] >> 1;
+        this.mostrarMensaje(`SHR: bits de ${registro} movidos a la derecha.`);
+    }
+
+    mostrarMensaje(mensaje) {
+        const consola = document.getElementById("consola");
+        const linea = document.createElement("div");
+        linea.classList.add("linea-consola");
+
+        linea.innerHTML = `
+            <span class="prompt">VM></span>
+            <span class="texto">${mensaje}</span>
+        `;
+        consola.appendChild(linea);
+        consola.scrollTop = consola.scrollHeight;
+    }
 
     ActualizarPantalla(){
-        document.getElementById('val-ax').textContent = this.Ax;
-        document.getElementById('val-bx').textContent = this.Bx;
-        document.getElementById('val-cx').textContent = this.Cx;
+        document.getElementById('val-ax').textContent = 
+        `${this.Ax} (${this.formatearHex(this.Ax)}) [${this.formatearBin(this.Ax)}]`;
+        document.getElementById('val-bx').textContent = 
+        `${this.Bx} (${this.formatearHex(this.Bx)}) [${this.formatearBin(this.Bx)}]`;
+        document.getElementById('val-cx').textContent = 
+        `${this.Cx} (${this.formatearHex(this.Cx)}) [${this.formatearBin(this.Cx)}]`;
+    
         document.getElementById('input-ax').value = this.Ax;
         document.getElementById('input-bx').value = this.Bx;
 
@@ -241,6 +340,43 @@ PILA : ${this.pila.length === 0 ? "Vacía" : this.pila.join(", ")}
             }
             tablaHTML += '</table>';
             pantallaPila.innerHTML = tablaHTML;
+        }
+        this.guardarEstado();
+    }
+    //DÍA 11
+    formatearHex(valor) {
+        if (isNaN(valor) || valor === "ERR") return "0x0";
+        // Convertimos a entero, luego a base 16 y a mayúsculas
+        let hex = Math.floor(valor).toString(16).toUpperCase();
+        return `0x${hex}`;
+    }
+    //DÍA 12
+    formatearBin(valor) {
+        if (isNaN(valor) || valor === "ERR") return "00000000";
+        return (valor >>> 0).toString(2).slice(-8).padStart(8, '0');
+    }
+    //DÍA 13
+    evaluarCondicionCompleja(registro, min, max) {
+        const valor = this[registro];
+        const limiteMin = parseFloat(min);
+        const limiteMax = parseFloat(max);
+
+        const cumpleMin = valor >= limiteMin;
+        const cumpleMax = valor <= limiteMax;
+
+        const resultadoFinal = cumpleMin && cumpleMax;
+
+        this.mostrarMensaje(`--- EVALUACIÓN LÓGICA (Rango) ---`);
+        this.mostrarMensaje(`Registro ${registro} = ${valor}`);
+        this.mostrarMensaje(`Condición A (${valor} >= ${limiteMin}): ${cumpleMin}`);
+        this.mostrarMensaje(`Condición B (${valor} <= ${limiteMax}): ${cumpleMax}`);
+        this.mostrarMensaje(`Operación: Condición A AND Condición B`);
+        this.mostrarMensaje(`RESULTADO: ${resultadoFinal ? "VERDADERO (TRUE)" : "FALSO (FALSE)"}`);
+        
+        if (resultadoFinal) {
+            this.mostrarMensaje("Explicación: Ambas condiciones son TRUE, por lo tanto el resultado es TRUE.");
+        } else {
+            this.mostrarMensaje("Explicación: Una o ambas condiciones son FALSE, por lo tanto el resultado es FALSE.");
         }
     }
 }
